@@ -416,3 +416,8 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+
+coop_zadanie.sln
+coop_zadanie.vcxproj
+coop_zadanie.vcxproj.filters
