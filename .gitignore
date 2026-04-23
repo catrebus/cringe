@@ -416,3 +416,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+ConsoleApplication1.c
+ConsoleApplication1.vcxproj
+ConsoleApplication1.vcxproj.filters
