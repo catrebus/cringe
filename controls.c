@@ -1,45 +1,54 @@
 #include "controls.h"
 #include <string.h>
 
+// =============================================================================
+// ПРОТОТИПЫ ВНУТРЕННИХ ФУНКЦИЙ
+// =============================================================================
+
+// Чтение файла в массив
+static void import_file(struct Car* storage, int* return_size, char* message);
+
+// Запись массива в файл 
+static void export_file(struct Car* storage, int* return_size, char* message);
+
+// Поиск индекса строки с указанным id
+// Возвращает -1, если строка не найдена
+static int is_id_exists(int id, struct Car* storage, int size);
+
+// Ввод строки файла
+static void insert_car_info(struct Car* tmp);
+
+// Добавление новой строки
+static void add_new_line(struct Car* storage, int* return_size, char* message);
+
+// Удаление строки по id
+static void delete_line(struct Car* storage, int* return_size, char* message);
+
+// Замена строки по id на введеные в консоль данные
+static void replace_line(struct Car* storage, int* return_size, char* message);
+
+// Чистка буфера
+static void clear_buf();
+
+// =============================================================================
+// ВНЕШНИЕ ФУНКЦИИ
+// =============================================================================
 
 //Функция для выполнения действия с внутренним хранилищем в соответствии с полученным как аргумент номером действия
 void action(char action_num, struct Car* storage, int* return_size, char* message) {
 
 	switch (action_num) {
-		case '0':
-			exit(0);
-			break;
-		case '1':
-			import_file(storage, return_size, message);
-			break;
-		case '2':
-			add_new_line(storage, return_size, message);
-			break;
-		case '3':
-			delete_line(storage, return_size, message);
-			break;
-		case '4':
-
-			break;
-		case '5':
-
-			break;
-		case '6':
-
-			break;
-		case '7':
-
-			break;
-		case '8':
-			export_file(storage, return_size, message);
-			break;
-		case '9':
-			
-			break;
-
+		case '0': exit(0);										break;
+		case '1': import_file(storage, return_size, message);	break;
+		case '2': add_new_line(storage, return_size, message);	break;
+		case '3': delete_line(storage, return_size, message);	break;
+		case '4': replace_line(storage, return_size, message);	break;
+		case '5':												break;
+		case '6':												break;
+		case '7':												break;
+		case '8': export_file(storage, return_size, message);	break;
+		case '9':												break;
 	}
-
-	return;
 }
 
 //Функция для вывода вариантов использования программы
@@ -60,7 +69,14 @@ void print_menu(char* message) {
 		message);
 }
 
-// Чтение файла в массив (1)
+// =============================================================================
+// ВНУТРЕННИЕ ФУНКЦИИ
+// =============================================================================
+
+void clear_buf() {
+	while (getchar() != '\n');
+}
+
 void import_file(struct Car* storage, int *return_size, char* message) {
 
 	*return_size = 0;
@@ -84,7 +100,6 @@ void import_file(struct Car* storage, int *return_size, char* message) {
 	strcpy(message, "УСПЕХ: Файл успешно импортирован");
 }
 
-// Запись массива в файл (8)
 void export_file(struct Car* storage, int* return_size, char* message) {
 	
 	// Проверка на наличие данных в системе
@@ -104,8 +119,7 @@ void export_file(struct Car* storage, int* return_size, char* message) {
 
 }
 
-// Поиск индекса строки с указанным id
-// Возвращает -1, если не строка не найдена
+
 int is_id_exists(int id, struct Car* storage, int size) {
 
 	for (int i = 0; i < size; i++) {
@@ -116,12 +130,6 @@ int is_id_exists(int id, struct Car* storage, int size) {
 	return -1;
 }
 
-// Чистка буфера
-void clear_buf() {
-	while (getchar() != '\n');
-}
-
-// Ввод строки файла
 void insert_car_info(struct Car* tmp) {
 	
 	// Ввод даты
@@ -178,7 +186,6 @@ void insert_car_info(struct Car* tmp) {
 	printf("\033[H\033[J");
 }
 
-// Добавление новой строки
 void add_new_line(struct Car* storage, int* return_size, char* message) {
 	
 	struct Car tmp;
@@ -210,7 +217,6 @@ void add_new_line(struct Car* storage, int* return_size, char* message) {
 	strcpy(message, "УСПЕХ: Строка успешно добавлена");
 }
 
-// Удаление строки по id
 void delete_line(struct Car* storage, int* return_size, char* message) {
 	int line_id = 0;
 	int line_idx = 0;
@@ -234,11 +240,41 @@ void delete_line(struct Car* storage, int* return_size, char* message) {
 		break;
 	}
 
-	// Сдвиг элементов массива
+	// Сдвиг элементов массива до удаляемого
 	for (int i = line_idx; i < *return_size-1; i++) {
 		storage[i] = storage[i + 1];
 	}
 
 	*return_size -= 1;
 	strcpy(message, "УСПЕХ: Строка успешно удалена");
+}
+
+void replace_line(struct Car* storage, int* return_size, char* message) {
+	int line_id = 0;
+	int line_idx = 0;
+
+	// Ввод id для изменения
+	while (1) {
+		printf("Введите id изменяемой строки: ");
+		if (scanf("%d", &line_id) != 1) {
+			clear_buf();
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+
+		line_idx = is_id_exists(line_id, storage, *return_size);
+		if (line_idx == -1) {
+			printf("\033[H\033[J");
+			printf("Введенный вами id не существует, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+
+	struct Car tmp;
+	tmp.id = line_id;
+	insert_car_info(&tmp);
+	storage[line_idx] = tmp;
+	strcpy(message, "УСПЕХ: Строка успешно изменена");
 }

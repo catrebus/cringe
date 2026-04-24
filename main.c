@@ -21,4 +21,8 @@ int main() {
 		printf("\033[H\033[J");
 		action(inp, storage, &storage_size, message);
 	}
+
+
+	free(storage);
+	return 0;
 }
