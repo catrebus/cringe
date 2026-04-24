@@ -2,7 +2,7 @@
 #include <string.h>
 
 
-// Выбор действия
+//Функция для выполнения действия с внутренним хранилищем в соответствии с полученным как аргумент номером действия
 void action(char action_num, struct Car* storage, int* return_size, char* message) {
 
 	switch (action_num) {
@@ -42,7 +42,7 @@ void action(char action_num, struct Car* storage, int* return_size, char* messag
 	return;
 }
 
-//Вывод меню в консоль
+//Функция для вывода вариантов использования программы
 void print_menu(char* message) {
 	printf("--------------------------------------------------------------------------------------\n"
 		"|%-84s|\n"
@@ -104,6 +104,8 @@ void export_file(struct Car* storage, int* return_size, char* message) {
 
 }
 
+// Поиск индекса строки с указанным id
+// Возвращает -1, если не строка не найдена
 int is_id_exists(int id, struct Car* storage, int size) {
 
 	for (int i = 0; i < size; i++) {
@@ -112,6 +114,68 @@ int is_id_exists(int id, struct Car* storage, int size) {
 		}
 	}
 	return -1;
+}
+
+// Чистка буфера
+void clear_buf() {
+	while (getchar() != '\n');
+}
+
+// Ввод строки файла
+void insert_car_info(struct Car* tmp) {
+	
+	// Ввод даты
+	while (1) {
+
+		printf("Введите дату(dd.mm.yyyy): ");
+		if (scanf("%d.%d.%d", &tmp->date.day, &tmp->date.month, &tmp->date.year) != 3) {
+			clear_buf();
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	// Ввод фамилии менеджера
+	while (1) {
+		printf("Введите фамилию менеджера: ");
+		if (scanf("%99s", &tmp->manager) != 1) {
+			clear_buf();
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	//Ввод марки автомобиля
+	while (1) {
+		printf("Введите марку автомобиля: ");
+		if (scanf("%39s", &tmp->marka) != 1) {
+			clear_buf();
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	//Ввод цены
+	while (1) {
+		printf("Введите цену: ");
+		if (scanf("%d", &tmp->cost) != 1) {
+			clear_buf();
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
 }
 
 // Добавление новой строки
@@ -124,6 +188,7 @@ void add_new_line(struct Car* storage, int* return_size, char* message) {
 		printf("Введите id: ");
 
 		if (scanf("%d", &tmp.id) != 1) {
+			clear_buf();
 			printf("\033[H\033[J");
 			printf("Ошибка, попробуйте еще раз\n");
 			continue;
@@ -138,62 +203,14 @@ void add_new_line(struct Car* storage, int* return_size, char* message) {
 	}
 	printf("\033[H\033[J");
 
-	// Ввод даты
-	while (1) {
-
-		printf("Введите дату(dd.mm.yyyy): ");
-		if (scanf("%d.%d.%d", &tmp.date.day, &tmp.date.month, &tmp.date.year) != 3) {
-			printf("\033[H\033[J");
-			printf("Ошибка, попробуйте еще раз\n");
-			continue;
-		}
-		break;
-	}
-	printf("\033[H\033[J");
-
-	// Ввод фамилии менеджера
-	while (1) {
-		printf("Введите фамилию менеджера: ");
-		if (scanf("%s", tmp.manager) != 1) {
-			printf("\033[H\033[J");
-			printf("Ошибка, попробуйте еще раз\n");
-			continue;
-		}
-		break;
-	}
-	printf("\033[H\033[J");
-
-	//Ввод марки автомобиля
-	while (1) {
-		printf("Введите марку автомобиля: ");
-		if (scanf("%s", tmp.marka) != 1) {
-			printf("\033[H\033[J");
-			printf("Ошибка, попробуйте еще раз\n");
-			continue;
-		}
-		break;
-	}
-	printf("\033[H\033[J");
-
-	//Ввод цены
-	while (1) {
-		printf("Введите цену: ");
-		if (scanf("%d", &tmp.cost) != 1) {
-			printf("\033[H\033[J");
-			printf("Ошибка, попробуйте еще раз\n");
-			continue;
-		}
-		break;
-	}
-	printf("\033[H\033[J");
-	
+	insert_car_info(&tmp);
 
 	storage[*return_size] = tmp;
 	*return_size += 1;
 	strcpy(message, "УСПЕХ: Строка успешно добавлена");
 }
 
-// Удаление строки
+// Удаление строки по id
 void delete_line(struct Car* storage, int* return_size, char* message) {
 	int line_id = 0;
 	int line_idx = 0;
@@ -202,6 +219,7 @@ void delete_line(struct Car* storage, int* return_size, char* message) {
 	while (1) {
 		printf("Введите id удаляемой строки: ");
 		if (scanf("%d", &line_id) != 1) {
+			clear_buf();
 			printf("\033[H\033[J");
 			printf("Ошибка, попробуйте еще раз\n");
 			continue;
