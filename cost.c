@@ -27,3 +27,13 @@ void sorted_viborom(struct Car arr[], int syze) {
 	}
 }
 
+void bubble_sorted(struct Car arr[], int syze) {
+	for (int i = 0; i < syze; i++) {
+		for (int j = 1; j < syze; j++) {
+			if (camper(j, j+1) > 0) {
+				arr[j], arr[j + 1] = arr[j + 1], arr[j];
+			}
+		}
+	}
+}
+
