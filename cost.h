@@ -13,3 +13,8 @@ struct Car {
 	char marka[40];
 	int cost;
 };
+
+void print_car(struct Car arr[], int syze);
+int camper(struct Car a[], struct Car b[]);
+void sorted_viborom(struct Car arr[], int syze);
+void bubble_sorted(struct Car arr[], int syze);
