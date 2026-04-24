@@ -13,7 +13,7 @@ void action(char action_num, struct Car* storage, int* return_size, char* messag
 			import_file(storage, return_size, message);
 			break;
 		case '2':
-
+			add_new_line(storage, return_size, message);
 			break;
 		case '3':
 
@@ -102,4 +102,94 @@ void export_file(struct Car* storage, int* return_size, char* message) {
 
 	strcpy(message, "УСПЕХ: Данные успешно экспортированы");
 
+}
+
+int is_id_exists(int id, struct Car* storage, int size) {
+
+	for (int i = 0; i < size; i++) {
+		if (storage[i].id == id) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+// Добавление новой строки
+void add_new_line(struct Car* storage, int* return_size, char* message) {
+	
+	struct Car tmp;
+
+	// Ввод id
+	while (1) {
+		printf("Введите id: ");
+
+		if (scanf("%d", &tmp.id) != 1) {
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+
+		if (is_id_exists(tmp.id, storage, *return_size) != -1) {
+			printf("\033[H\033[J");
+			printf("Введенный вами id уже существует, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	// Ввод даты
+	while (1) {
+
+		printf("Введите дату(dd.mm.yyyy): ");
+		if (scanf("%d.%d.%d", &tmp.date.day, &tmp.date.month, &tmp.date.year) != 3) {
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	// Ввод фамилии менеджера
+	while (1) {
+		printf("Введите фамилию менеджера: ");
+		if (scanf("%s", tmp.manager) != 1) {
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	//Ввод марки автомобиля
+	while (1) {
+		printf("Введите марку автомобиля: ");
+		if (scanf("%s", tmp.marka) != 1) {
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+
+	//Ввод цены
+	while (1) {
+		printf("Введите цену: ");
+		if (scanf("%d", &tmp.cost) != 1) {
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+	printf("\033[H\033[J");
+	
+
+
+	storage[*return_size] = tmp;
+	*return_size += 1;
+	strcpy(message, "УСПЕХ: Строка успешно добавлена");
 }
