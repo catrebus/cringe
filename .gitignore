@@ -417,6 +417,13 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+<<<<<<< HEAD
+
+coop_zadanie.sln
+coop_zadanie.vcxproj
+coop_zadanie.vcxproj.filters
+=======
 ConsoleApplication1.c
 ConsoleApplication1.vcxproj
 ConsoleApplication1.vcxproj.filters
+>>>>>>> 3fcdcc8b47d831e8704a5710b5b516514ed8913f
