@@ -5,4 +5,5 @@
 
 void action(char, struct Car*, int*, char*);
 void print_menu(char*);
-void load_file(struct Car*, int*, char*);
+void import_file(struct Car*, int*, char*);
+void export_file(struct Car*, int*, char*);
