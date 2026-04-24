@@ -3,6 +3,6 @@
 #include "cost.h"
 #define MAXN 100
 
-void action(char);
+void action(char, struct Car*, int*, char*);
 void print_menu(char*);
-void load_file(struct Car*, int*);
+void load_file(struct Car*, int*, char*);

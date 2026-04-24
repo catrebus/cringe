@@ -1,51 +1,46 @@
 #include "controls.h"
+#include <string.h>
 
-void action(char num) {
+void action(char action_num, struct Car* storage, int* return_size, char* message) {
 
-	if (num == '0') {
-		exit(0);
-	}
+	switch (action_num) {
+		case '0':
+			exit(0);
+			break;
+		case '1':
+			load_file(storage, return_size, message);
+			break;
+		case '2':
 
-	if (num == '1') {
-		
-	}
+			break;
+		case '3':
 
-	if (num == '2') {
+			break;
+		case '4':
 
-	}
+			break;
+		case '5':
 
-	if (num == 3) {
+			break;
+		case '6':
 
-	}
+			break;
+		case '7':
 
-	if (num == 4) {
+			break;
+		case '8':
 
-	}
+			break;
+		case '9':
 
-	if (num == 5) {
-
-	}
-
-	if (num == 6) {
-
-	}
-
-	if (num == 7) {
-
-	}
-
-	if (num == 8) {
-
-	}
-
-	if (num == 9) {
+			break;
 
 	}
 
 	return;
 }
 
-void print_menu(char* output) {
+void print_menu(char* message) {
 	printf("--------------------------------------------------------------------------------------\n"
 		"|%-84s|\n"
 		"--------------------------------------------------------------------------------------\n"
@@ -59,19 +54,20 @@ void print_menu(char* output) {
 		"7. Сортировка обменом(пузырек)\n"
 		"8. Сохранить данные в файл\n"
 		"9. Отпечатать файл или массив с разбивкой по страницам и шапкой с номером страницы\n",
-		output);
+		message);
 }
 
-void load_file(struct Car* storage, int *return_size) {
+void load_file(struct Car* storage, int *return_size, char* message) {
 	FILE *f_in = fopen("in.txt", "r");
-	int *return_size = 0;
+	*return_size = 0;
 
 	struct Car tmp;
 
 	while (*return_size < MAXN && fscanf(f_in, "%d %d.%d.%d %s %s %d",
-		tmp.id, tmp.date.day, tmp.date.month, tmp.date.year, tmp.manager, tmp.marka, tmp.cost) == 7) {
+		&tmp.id, &tmp.date.day, &tmp.date.month, &tmp.date.year, tmp.manager, tmp.marka, &tmp.cost) == 7) {
 		storage[*return_size] = tmp;
 		*return_size += 1;
 	}
-
+	strcpy(message, "Файл прочитан корректно");
 }
+
