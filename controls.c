@@ -16,7 +16,7 @@ void action(char action_num, struct Car* storage, int* return_size, char* messag
 			add_new_line(storage, return_size, message);
 			break;
 		case '3':
-
+			delete_line(storage, return_size, message);
 			break;
 		case '4':
 
@@ -188,8 +188,39 @@ void add_new_line(struct Car* storage, int* return_size, char* message) {
 	printf("\033[H\033[J");
 	
 
-
 	storage[*return_size] = tmp;
 	*return_size += 1;
 	strcpy(message, "УСПЕХ: Строка успешно добавлена");
+}
+
+// Удаление строки
+void delete_line(struct Car* storage, int* return_size, char* message) {
+	int line_id = 0;
+	int line_idx = 0;
+
+	// Ввод id для удаления
+	while (1) {
+		printf("Введите id удаляемой строки: ");
+		if (scanf("%d", &line_id) != 1) {
+			printf("\033[H\033[J");
+			printf("Ошибка, попробуйте еще раз\n");
+			continue;
+		}
+
+		line_idx = is_id_exists(line_id, storage, *return_size);
+		if (line_idx == -1) {
+			printf("\033[H\033[J");
+			printf("Введенный вами id не существует, попробуйте еще раз\n");
+			continue;
+		}
+		break;
+	}
+
+	// Сдвиг элементов массива
+	for (int i = line_idx; i < *return_size-1; i++) {
+		storage[i] = storage[i + 1];
+	}
+
+	*return_size -= 1;
+	strcpy(message, "УСПЕХ: Строка успешно удалена");
 }
