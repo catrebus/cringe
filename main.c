@@ -3,7 +3,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include "controls.h"
-#define MAXN 100
+
 
 int main() {
 

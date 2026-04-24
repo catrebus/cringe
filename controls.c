@@ -7,12 +7,7 @@ void action(char num) {
 	}
 
 	if (num == '1') {
-		printf("Введите дату(dd.mm.yyyy): ");
-		struct Date date = {0,0,0};
-		if (scanf("%d.%d.%d", &date.day, &date.month, &date.year) != 3) {
-			printf("Данные введены некорректно!\n");
-			return;
-		}
+		
 	}
 
 	if (num == '2') {
@@ -50,7 +45,7 @@ void action(char num) {
 	return;
 }
 
-void print_menu(char* error) {
+void print_menu(char* output) {
 	printf("--------------------------------------------------------------------------------------\n"
 		"|%-84s|\n"
 		"--------------------------------------------------------------------------------------\n"
@@ -64,6 +59,19 @@ void print_menu(char* error) {
 		"7. Сортировка обменом(пузырек)\n"
 		"8. Сохранить данные в файл\n"
 		"9. Отпечатать файл или массив с разбивкой по страницам и шапкой с номером страницы\n",
-		error);
+		output);
+}
+
+void load_file(struct Car* storage, int *return_size) {
+	FILE *f_in = fopen("in.txt", "r");
+	int *return_size = 0;
+
+	struct Car tmp;
+
+	while (*return_size < MAXN && fscanf(f_in, "%d %d.%d.%d %s %s %d",
+		tmp.id, tmp.date.day, tmp.date.month, tmp.date.year, tmp.manager, tmp.marka, tmp.cost) == 7) {
+		storage[*return_size] = tmp;
+		*return_size += 1;
+	}
 
 }
