@@ -1,8 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include "cost.h"
-#define MAXN 100
-
+#define MAXN 200
 
 /**
   * @brief Функция выполнения действия с внутренним хранилищем, соответствующее номеру

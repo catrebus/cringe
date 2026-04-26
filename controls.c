@@ -1,6 +1,7 @@
 #include "controls.h"
 #include <string.h>
 
+
 // =============================================================================
 // œ–Œ“Œ“»œ€ ¬Õ”“–≈ÕÕ»’ ‘”Õ ÷»…
 // =============================================================================
@@ -43,11 +44,11 @@ void action(char action_num, struct Car* storage, int* return_size, char* messag
 		case '2': add_new_line(storage, return_size, message);	break;
 		case '3': delete_line(storage, return_size, message);	break;
 		case '4': replace_line(storage, return_size, message);	break;
-		case '5':												break;
-		case '6':												break;
-		case '7':												break;
+		case '5': insertion_sort(storage, return_size, message);break;
+		case '6': selection_sort(storage, return_size, message);break;
+		case '7': bubble_sort(storage, return_size, message);	break;
 		case '8': export_file(storage, return_size, message);	break;
-		case '9':												break;
+		case '9': print_car(storage, return_size, message);     break;
 	}
 }
 
